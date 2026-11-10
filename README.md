@@ -21,15 +21,3 @@ Docker Compose, PostgreSQL с pgvector, HTTPS reverse proxy для VPS. `cp .env
 ## API
 
 `POST /api/auth/register`, `/login`; `GET /api/organizations/me`, `/agents`, `/channels`, `/contacts`, `/conversations`, `/conversations/{id}/messages`, `/leads`, `/knowledge`, `/knowledge/search?q=`, `/analytics`, `/audit`; `PUT /api/organizations/settings`; `POST /api/agents`, `/channels`, `/conversations/{id}/messages`, `/leads`, `/knowledge`, `/ai/preview`, `/integrations/{system}/leads/{id}`; `PATCH /api/conversations/{id}`, `/leads/{id}`; внешний webhook `POST /api/webhooks/{channelId}`. Приватные API требуют Bearer JWT; списки контактов, диалогов, сообщений и лидов выдаются страницами по 50 элементов.
-
-## Ограничения, лицензия, портфолио
-
-Требуется настройка и подтверждение фактического формата webhook у VK/MAX и разрешений конкретного аккаунта; универсальный webhook использует заголовок X-Channel-Secret и не заменяет платформенную регистрацию callback. Автоответы срабатывают только при явном включении, наличии LLM-ключа и проиндексированных источников; по умолчанию выключены. Перед коммерческим использованием требуется оценить качество ответов на собственных данных и настроить обработку ошибок доставки. amoCRM/Битрикс24 используют настроенные токены и URL, не проверялись с аккаунтами. Сборка не является тестированием. MIT. Реальные скриншоты разместите после запуска в `docs/screenshots/`. Для портфолио — пример омниканального inbox и RAG-помощника, а не кейс реального клиента.
-
-## Место для настоящих скриншотов
-
-Добавьте реальные снимки приложения в `docs/screenshots/` только после запуска и получения права на их публикацию.
-
-## Для портфолио
-
-Этот самостоятельный проект показывает соответствующие технологии и не представляет собой выполненный заказ клиента.
