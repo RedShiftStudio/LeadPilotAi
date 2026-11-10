@@ -1,0 +1,1 @@
+{"name":"leadpilot-web","private":true,"version":"1.0.0","scripts":{"build":"next build"},"dependencies":{"next":"^15.5.0","react":"^19.0.0","react-dom":"^19.0.0","lucide-react":"^0.468.0"},"devDependencies":{"typescript":"^5.8.0","@types/node":"^22.0.0","@types/react":"^19.0.0","@types/react-dom":"^19.0.0","tailwindcss":"^4.0.0","@tailwindcss/postcss":"^4.0.0"}}

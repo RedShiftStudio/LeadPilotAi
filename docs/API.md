@@ -1,0 +1,2 @@
+# API LeadPilot AI
+JWT выдаётся через `/api/auth/login` и `/api/auth/register`; организация берётся только из JWT. `POST /api/knowledge` принимает multipart `file` до 5 MB. `GET /api/knowledge/search?q=` — ручной текстовый поиск. `POST /api/ai/preview` с `{question}` возвращает `{answer,sources,mode}` только при ключе LLM. Отправка оператором — `POST /api/conversations/{id}/messages` с `{body}`. `/api/webhooks/{channelId}` требует секрет заголовка канала.

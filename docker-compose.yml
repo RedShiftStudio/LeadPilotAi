@@ -1,0 +1,48 @@
+services:
+  db:
+    image: pgvector/pgvector:pg17
+    environment:
+      POSTGRES_DB: leadpilot
+      POSTGRES_USER: leadpilot
+      POSTGRES_PASSWORD: ${DB_PASSWORD:?set DB_PASSWORD}
+    volumes: [leadpilot_db:/var/lib/postgresql/data]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U leadpilot -d leadpilot"]
+      interval: 10s
+      retries: 5
+  redis:
+    image: redis:7-alpine
+    volumes: [leadpilot_redis:/data]
+  api:
+    build: ./backend
+    environment:
+      ConnectionStrings__Db: Host=db;Database=leadpilot;Username=leadpilot;Password=${DB_PASSWORD}
+      JWT_SECRET: ${JWT_SECRET:?set JWT_SECRET}
+      ENCRYPTION_KEY: ${ENCRYPTION_KEY:?set ENCRYPTION_KEY}
+      AI_INTERNAL_TOKEN: ${AI_INTERNAL_TOKEN:?set AI_INTERNAL_TOKEN}
+      LLM_API_KEY: ${LLM_API_KEY:-}
+      WEB_ORIGIN: ${WEB_ORIGIN:-http://localhost:3000}
+      DEMO_MODE: ${DEMO_MODE:-false}
+      DEMO_EMAIL: ${DEMO_EMAIL:-}
+      DEMO_PASSWORD: ${DEMO_PASSWORD:-}
+      VK_CONFIRMATION_CODE: ${VK_CONFIRMATION_CODE:-}
+      AMO_DOMAIN: ${AMO_DOMAIN:-}
+      AMO_ACCESS_TOKEN: ${AMO_ACCESS_TOKEN:-}
+      BITRIX_WEBHOOK_URL: ${BITRIX_WEBHOOK_URL:-}
+    depends_on: {db: {condition: service_healthy}}
+  ai:
+    build: ./ai-service
+    environment:
+      DATABASE_URL: postgresql://leadpilot:${DB_PASSWORD}@db:5432/leadpilot
+      AI_INTERNAL_TOKEN: ${AI_INTERNAL_TOKEN}
+      LLM_API_KEY: ${LLM_API_KEY:-}
+    depends_on: {db: {condition: service_healthy}}
+  web:
+    build: ./frontend
+    environment:
+      INTERNAL_API_URL: http://api:8080
+    ports: ["${WEB_PORT:-3003}:3000"]
+    depends_on: [api, ai]
+volumes:
+  leadpilot_db:
+  leadpilot_redis:
